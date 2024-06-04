@@ -119,4 +119,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GroundType: 1
-  isSpawner: 0
+  _data: {fileID: 11400000, guid: 1ad4f1b541fcccb49b7ecc7c492aa837, type: 2}

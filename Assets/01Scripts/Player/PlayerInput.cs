@@ -24,7 +24,6 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             Move.Invoke(Vector2.right);
-            Debug.Log("Invoked");
         }
     }
 }

@@ -6,39 +6,43 @@ using Random = UnityEngine.Random;
 
 public class Road : Ground
 {
-    [SerializeField] private List<Car> _carList;
-    [SerializeField] private float _minSpawnTime;
-    [SerializeField] private float _maxSpawnTime;
-
+    [SerializeField] private RoadDataSO _data;
     private int _moveDirX;
     private bool _spawner;
 
-    private void Awake()
+    public override void SpawnBlock(int xIdx, float rF, GroundController controller)
     {
-        GroundType = GroundType.Road;
-    }
+        _moveDirX = rF >= 0.5f ? 1 : -1;
+        if (xIdx == 0)
+        {
+            if (_moveDirX > 0)
+            {
+                _spawner = true;
+            }
+        }
+        else if (xIdx == controller.GridMap.Width - 1)
+        {
+            if (_moveDirX < 0)
+            {
+                _spawner = true;
+            }
+        }
 
-    public override void SpawnBlock(int idx)
-    {
-
-    }
-
-    public void SetCarSpawner(int moveDirX)
-    {
-        _moveDirX = moveDirX;
-        _spawner = true;
-        StartCoroutine(SpawnCar());
+        if (_spawner)
+        {
+            StartCoroutine(SpawnCar());
+        }
     }
 
     private IEnumerator SpawnCar()
     {
-        while (_spawner)
+        while (true)
         {
-            int r = Random.Range(0, _carList.Count);
-            Instantiate(_carList[r], transform.position, Quaternion.LookRotation(Vector3.right * _moveDirX));
+            float wTime = Random.Range(_data.MinSpawnTime, _data.MaxSpawnTime);
+            yield return new WaitForSeconds(wTime);
 
-        float wTime = Random.Range(_minSpawnTime, _maxSpawnTime);
-        yield return new WaitForSeconds(wTime);
+            int r = Random.Range(0, _data.CarList.Count);
+            Instantiate(_data.CarList[r], transform.position + Vector3.up * 0.5f, Quaternion.LookRotation(Vector3.right * _moveDirX));
         }
 
     }

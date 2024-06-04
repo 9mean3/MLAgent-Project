@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Car : MonoBehaviour
 {
-    [SerializeField] private float _speed;
+    public float Speed;
+
+    private void Awake()
+    {
+        Destroy(gameObject, 10f);
+    }
 
     private void Update()
     {
-        transform.Translate(Vector3.forward * _speed * Time.deltaTime);
+        transform.Translate(Vector3.forward * Speed * Time.deltaTime);
     }
 }

@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class Wood : Ground
 {
-    List<GameObject> woodList = new List<GameObject>();
+    [SerializeField] private WoodDataSO _woodDataSO;
+    [Range(0f, 1f)]
+    [SerializeField] private float _woodSpawnPerc;
 
-    private void Awake()
+    public override void SpawnBlock(int xIdx, float rF, GroundController controller)
     {
-        GroundType = GroundType.Wood;
+        float rWoodSpawn = Random.value;
+        if(rWoodSpawn <= _woodSpawnPerc)
+        {
+            int rWood = Random.Range(0, _woodDataSO.WoodList.Count);
+            Instantiate(_woodDataSO.WoodList[rWood], transform.position, Quaternion.identity);
+        }
     }
 }

@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Water : MonoBehaviour
+public class Water : Ground
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        //GroundType = GroundType.Water;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void SpawnBlock(int xIdx, float rF, GroundController controller)
     {
-        
+
     }
 }

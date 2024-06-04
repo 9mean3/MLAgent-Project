@@ -16,18 +16,4 @@ public class GroundLine : MonoBehaviour
     {
         Ground ground = _controller.GroundDictionary[groundType];
     }
-
-/*    public void GenerateRoadLine(int z, GroundType groundType)
-    {
-        for (int i = 0; i < _controller.GridMap.Width; i++)
-        {
-            _controller.GridMap.SetBlock(i, 0, z, _controller.GroundDictionary[groundType]);
-            Instantiate(_controller.GridMap.GetBlock(i, 0, z), _controller.GridMap.GetWorldPosition(i, 0, z), Quaternion.identity, _groundParent);
-
-            if (i == 0)
-            {
-                ((Road)ground).SetCarSpawner(1);
-            }
-        }
-    }*/
 }

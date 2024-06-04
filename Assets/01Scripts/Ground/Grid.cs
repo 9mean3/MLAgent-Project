@@ -17,15 +17,17 @@ public class Grid
     public int Height;
     public int Depth;
     public float CellSize;
+    private Vector3 _originPos;
 
     private Ground[,,] grid;
 
-    public Grid(int width, int height, int depth, float cellSize)
+    public Grid(int width, int height, int depth, float cellSize, Vector3 originPos)
     {
         Width = width;
         Height = height;
         Depth = depth;
         CellSize = cellSize;
+        _originPos = originPos;
 
         grid = new Ground[width, height, depth];
     }
@@ -45,6 +47,16 @@ public class Grid
 
     public Vector3 GetWorldPosition(int x, int y, int z)
     {
-        return new Vector3(x, y, z) * CellSize;
+        return _originPos + new Vector3(x, y, z) * CellSize;
+    }
+
+    public Vector3Int WorldToGridPosition(Vector3 worldPosition)
+    {
+        Vector3 offset = worldPosition - _originPos;
+        int x = Mathf.FloorToInt(offset.x / CellSize);
+        int y = Mathf.FloorToInt(offset.y / CellSize);
+        int z = Mathf.FloorToInt(offset.z / CellSize);
+
+        return new Vector3Int(x, y, z);
     }
 }
