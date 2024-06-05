@@ -3,14 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GroundType
-{
-    Wood,
-    Road,
-    //Water,
-    EndEnum,
-}
-
 public class Grid
 {
     public int Width;
@@ -37,6 +29,10 @@ public class Grid
         if (x >= 0 && y >= 0 && x < Width && y < Height)
         {
             grid[x, y, z] = ground;
+        }
+        else
+        {
+            Debug.LogError($"Pos: {x} {y} {z} {ground} is OutOfRange");
         }
     }
 

@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5b6a606d37e9140a14a506e55bd741, type: 3}
   m_Name: RoadDataSO
   m_EditorClassIdentifier: 
-  CarList:
-  - {fileID: -7801277198025539772, guid: 90e14f080f0ed9645bbf770e3b9563a4, type: 3}
-  - {fileID: 6756609100893758808, guid: cce674de6277f7c4e9e241f97a2995dc, type: 3}
-  - {fileID: -3898059755698496551, guid: 74a012cbc59e7a74ebb189f8135ba483, type: 3}
-  - {fileID: 2244510511413598990, guid: 09f27ee73fe0677478cc2637cacb0f1c, type: 3}
-  - {fileID: 2924602585543958498, guid: 1b237fe9da3622b4fa834cac7bb5d9c4, type: 3}
-  - {fileID: 1993032223365413698, guid: 29928242c5be81e41b7d82801ece7acf, type: 3}
-  - {fileID: -7231475253367939107, guid: da1df04118d25224a82541dfc8a595e2, type: 3}
-  - {fileID: 2503838124371992500, guid: 6efc1668f11be294c9d5342663d4c9d4, type: 3}
-  - {fileID: 5109449097591486386, guid: 2451a8fccc28faa4dae574390ac75fad, type: 3}
-  - {fileID: 917381942846617954, guid: 14a21a33eb940dd47844331db8cff105, type: 3}
+  SpawnList:
+  - {fileID: 5921674322951935326, guid: 90e14f080f0ed9645bbf770e3b9563a4, type: 3}
+  - {fileID: 8016763712341518930, guid: cce674de6277f7c4e9e241f97a2995dc, type: 3}
+  - {fileID: 3997326107397367805, guid: 74a012cbc59e7a74ebb189f8135ba483, type: 3}
+  - {fileID: 604477967370304415, guid: 09f27ee73fe0677478cc2637cacb0f1c, type: 3}
+  - {fileID: 8624691264543442550, guid: 1b237fe9da3622b4fa834cac7bb5d9c4, type: 3}
+  - {fileID: 2658375631960562563, guid: 29928242c5be81e41b7d82801ece7acf, type: 3}
+  - {fileID: 7111496756926285222, guid: da1df04118d25224a82541dfc8a595e2, type: 3}
+  - {fileID: 4194057230548692037, guid: 6efc1668f11be294c9d5342663d4c9d4, type: 3}
+  - {fileID: 5803317979220034874, guid: 2451a8fccc28faa4dae574390ac75fad, type: 3}
+  - {fileID: 261569558913212766, guid: 14a21a33eb940dd47844331db8cff105, type: 3}
   MinSpawnTime: 2
-  MaxSpawnTime: 8
+  MaxSpawnTime: 6

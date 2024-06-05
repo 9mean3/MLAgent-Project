@@ -148,16 +148,20 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other);
-        if (other.transform.CompareTag("Car"))
+        if (other.CompareTag("Car"))
         {
             transform.Find("Visual").localScale = new Vector3(0.8f, 0.1f, 0.8f);
             _onPlayerDie.Invoke();
         }
-        else if (other.transform.CompareTag("Wood"))
+        else if (other.CompareTag("Wood"))
         {
             StopAllCoroutines();
 
             StartCoroutine(ReturnPosition());
+        }
+        else if (other.CompareTag("Log"))
+        {
+            //_gridMap = other.GetComponent<Log>().LogGrid;
         }
     }
 }

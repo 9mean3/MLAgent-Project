@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class Road : Ground
 {
-    [SerializeField] private RoadDataSO _data;
+    [SerializeField] private SpawnDataSO _data;
     private int _moveDirX;
     private bool _spawner;
 
@@ -41,8 +41,8 @@ public class Road : Ground
             float wTime = Random.Range(_data.MinSpawnTime, _data.MaxSpawnTime);
             yield return new WaitForSeconds(wTime);
 
-            int r = Random.Range(0, _data.CarList.Count);
-            Instantiate(_data.CarList[r], transform.position + Vector3.up * 0.5f, Quaternion.LookRotation(Vector3.right * _moveDirX));
+            int r = Random.Range(0, _data.SpawnList.Count);
+            Instantiate(_data.SpawnList[r], transform.position + Vector3.up * 0.5f, Quaternion.LookRotation(Vector3.right * _moveDirX));
         }
 
     }
