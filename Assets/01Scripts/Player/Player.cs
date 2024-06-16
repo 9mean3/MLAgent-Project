@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
-struct GridPostion
+public struct GridPosition
 {
     public int x;
     public int z;
@@ -25,8 +25,9 @@ public class Player : MonoBehaviour
     private Vector2 _bufferedInputDir;
     private bool _isMoving;
     private bool _isReturning;
-    private GridPostion _gridPosition;
-    private GridPostion _befGridPosition;
+    private GridPosition _gridPosition;
+    public GridPosition PlayerGridPosition => _gridPosition;
+    private GridPosition _befGridPosition;
     private Grid _gridMap;
 
     private float _timeLapse;
@@ -49,7 +50,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _gridMap = _groundController.GridMap;
-        _gridPosition.x = _gridMap.Width / 2; _gridPosition.z = 0;
+        _gridPosition.x = _gridMap.Width / 2; _gridPosition.z = 1;
         transform.position = _gridMap.GetWorldPosition(_gridPosition.x, 0, _gridPosition.z);
     }
 
@@ -147,7 +148,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other);
+        //Debug.Log(other);
         if (other.CompareTag("Car"))
         {
             transform.Find("Visual").localScale = new Vector3(0.8f, 0.1f, 0.8f);

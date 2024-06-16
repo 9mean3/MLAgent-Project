@@ -28,6 +28,7 @@ public class Grid
     {
         if (x >= 0 && y >= 0 && x < Width && y < Height)
         {
+            //Debug.Log(ground);
             grid[x, y, z] = ground;
         }
         else

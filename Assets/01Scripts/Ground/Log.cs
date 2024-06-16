@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Log : MonoBehaviour
 {
-    public Grid LogGrid { get; private set; }
     public float Speed;
-
-    private void Awake()
-    {
-        LogGrid = new Grid(4, 1, 1, 1, transform.position);
-    }
+    private Vector3 _diePos = Vector3.zero;
 
     private void Update()
     {
-        transform.Translate(Vector3.forward * Speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _diePos, Speed * Time.deltaTime);
+        if (Vector3.Distance(transform.position, _diePos) < 0.1f)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void SetDiePosition(Vector3 diePos)
+    {
+        _diePos = diePos;
     }
 }
