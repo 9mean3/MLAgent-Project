@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _moveDuration;
     [Range(0f, 1f)]
     [SerializeField] private float _bufferedInputAllowedTime;
+    private Rigidbody _rb;
     private Vector2 _bufferedInputDir;
     private bool _isMoving;
     private bool _isReturning;
@@ -31,6 +32,8 @@ public class Player : MonoBehaviour
     private Grid _gridMap;
 
     private float _timeLapse;
+
+    public bool GotUmbrella;
 
     private void OnEnable()
     {
@@ -45,6 +48,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _timeLapse = _moveDuration;
+        _rb = GetComponent<Rigidbody>();
     }
 
     private void Start()
@@ -60,44 +64,45 @@ public class Player : MonoBehaviour
     {
         if (_isReturning) return;
 
-        if(_timeLapse / _moveDuration >= _bufferedInputAllowedTime)
+        if (_timeLapse / _moveDuration >= _bufferedInputAllowedTime)
         {
             _bufferedInputDir = dir;
         }
         if (!_isMoving)
         {
-            StartCoroutine(MoveCor(_bufferedInputDir));
+            if(!GotUmbrella)
+            StartCoroutine(MoveCor(_bufferedInputDir, _moveDuration, _maxJumpHeight));
+            else
+                StartCoroutine(MoveCor(_bufferedInputDir * 2, _moveDuration * 1.8f, _maxJumpHeight * 1.8f));
+
             _bufferedInputDir = Vector2.zero;
         }
     }
 
-    private IEnumerator MoveCor(Vector2 dir)
+    private IEnumerator MoveCor(Vector2 dir, float moveDuration, float jumpHeight)
     {
+        Debug.Log(dir);
         _isMoving = true;
 
         Vector3 startPos = _gridMap.GetWorldPosition(_gridPosition.x, 0, _gridPosition.z);
         _befGridPosition.x = (int)startPos.x; _befGridPosition.z = (int)startPos.z;
-        if (Mathf.Abs(dir.y) > 0)
-        {
-            _gridPosition.z += (int)dir.y;
-        }
-        else if(Mathf.Abs(dir.x) > 0)
-        {
-            _gridPosition.x += (int)dir.x;
-        }
+
+        _gridPosition.x += (int)dir.x; 
+        _gridPosition.z += (int)dir.y;
         Vector3 nextPos = _gridMap.GetWorldPosition(_gridPosition.x, 0, _gridPosition.z);
 
         Quaternion startRot = transform.rotation;
         Quaternion nextRot = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.y));
 
         float time = 0;
-        while (time < _moveDuration)
+        float duration = moveDuration;
+        while (time < duration)
         {
-            float t = time / _moveDuration; 
-            float height = 4 * _maxJumpHeight * t * (1 - t); 
+            float t = time / duration;
+            float height = 4 * (/*_maxJumpHeight * */jumpHeight)* t * (1 - t);
 
             Vector3 targetVector = Vector3.Slerp(startPos, nextPos, t);
-            targetVector.y = height; 
+            targetVector.y = height;
             transform.localPosition = targetVector;
 
             Quaternion lookRot = Quaternion.LookRotation(dir);
@@ -111,10 +116,11 @@ public class Player : MonoBehaviour
         transform.localPosition = nextPos;
         transform.localRotation = nextRot;
         _isMoving = false;
-        
-        if(_bufferedInputDir != Vector2.zero)
+        _rb.velocity = Vector3.zero;
+
+        if (_bufferedInputDir != Vector2.zero)
         {
-            StartCoroutine(MoveCor(_bufferedInputDir));
+            StartCoroutine(MoveCor(_bufferedInputDir, _moveDuration, _maxJumpHeight));
             _bufferedInputDir = Vector2.zero;
         }
     }
@@ -146,6 +152,12 @@ public class Player : MonoBehaviour
         _isReturning = false;
     }
 
+    public void MoveFar(Vector2 dir, float moveDuration, float jumpHeight)
+    {
+        StopAllCoroutines();
+        StartCoroutine(MoveCor(dir, moveDuration, jumpHeight));
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other);
@@ -160,9 +172,10 @@ public class Player : MonoBehaviour
 
             StartCoroutine(ReturnPosition());
         }
-        else if (other.CompareTag("Log"))
+
+        else if (other.TryGetComponent(out Item item))
         {
-            //_gridMap = other.GetComponent<Log>().LogGrid;
+            item.UseItem(transform);
         }
     }
 }

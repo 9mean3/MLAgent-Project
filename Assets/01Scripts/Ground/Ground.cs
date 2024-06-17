@@ -6,7 +6,7 @@ public enum GroundType
 {
     Wood,
     Road,
-    Water,
+    ItemGround,
     EndEnum,
 }
 

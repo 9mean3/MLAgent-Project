@@ -61,12 +61,12 @@ public class GroundController : MonoBehaviour
             SetRandomLine(j);
         }
 
-        GenerateBlock(0, 0, _width, _depth);
+        GenerateBlock(0, 0, _width, _depth - 1);
     }
 
     private void SetRandomLine(int j)
     {
-        GroundType type = (GroundType)Random.Range(0, (int)GroundType.EndEnum);
+        GroundType type = GetRandomGT();/*(GroundType)Random.Range(0, (int)GroundType.EndEnum);*/
         for (int i = 1; i < _width - 1; i++)
         {
             GridMap.SetBlock(i, 0, j, GroundDictionary[type]);
@@ -75,7 +75,7 @@ public class GroundController : MonoBehaviour
 
     private GroundType GetRandomGT()
     {
-        int randomVal = Random.Range(0, 101);
+        int randomVal = Random.Range(0, 11);
 
         int grade = -1;
         float cumulative = 0f;
@@ -85,7 +85,7 @@ public class GroundController : MonoBehaviour
             cumulative += _groundList[i].Perc;
             if (cumulative >= randomVal)
             {
-                return _groundList[grade].GroundType;
+                return _groundList[i].GroundType;
             }
         }
 
