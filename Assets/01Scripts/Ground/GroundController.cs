@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.Progress;
 
 [System.Serializable]
 public struct GroundSpawnData
@@ -21,17 +20,15 @@ public class GroundController : MonoBehaviour
     [SerializeField] private Ground _fenceBlock;
     [SerializeField] private List<GroundSpawnData> _groundList = new List<GroundSpawnData>();
     [SerializeField] private int _width;
+    public int Width => _width;
     //[SerializeField] private int _height;
     [SerializeField] private int _depth;
+    public int Depth => _depth;
 
     public int LoadedLineIdx = 0;
 
-    private void Awake()
+    private void OnEnable()
     {
-/*        foreach (Ground item in _groundList)
-        {
-            GroundDictionary.Add(item.GroundType, item);
-        }*/
         for (int i = 0; i < _groundList.Count; i++)
         {
             Ground item = _groundList[i].Ground;
@@ -49,6 +46,7 @@ public class GroundController : MonoBehaviour
             GridMap.SetBlock(i, 0, 1, _checkBlock);
             GridMap.SetBlock(i, 0, _depth - 2, _checkBlock);
         }
+        AnimalManager.Instance.CheckLineIndex = _depth - 2;
         for (int j = 0; j < _depth; j++)
         {
             GridMap.SetBlock(0, 0, j, _fenceBlock);
@@ -56,12 +54,21 @@ public class GroundController : MonoBehaviour
         }
 
 
-        for (int j = 2; j < _depth - 1; j++)
+        for (int j = 2; j < _depth - 2; j++)
         {
             SetRandomLine(j);
         }
 
         GenerateBlock(0, 0, _width, _depth - 1);
+    }
+
+    private void Awake()
+    {
+/*        foreach (Ground item in _groundList)
+        {
+            GroundDictionary.Add(item.GroundType, item);
+        }*/
+
     }
 
     private void SetRandomLine(int j)
@@ -75,9 +82,8 @@ public class GroundController : MonoBehaviour
 
     private GroundType GetRandomGT()
     {
-        int randomVal = Random.Range(0, 11);
+        int randomVal = Random.Range(0, 101);
 
-        int grade = -1;
         float cumulative = 0f;
 
         for (int i = 0; i < _groundList.Count; i++)
